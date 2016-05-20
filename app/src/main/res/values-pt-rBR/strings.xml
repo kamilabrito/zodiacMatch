@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Zodiac Match</string>
+    <string name="action_settings">Configurações</string>
+    <string name="welcome">Bem vindo ao Zodiac Match</string>
+
+    <!-- zodiac names -->
+    <string name="aries_name">Áries</string>
+    <string name="taurus_name">Touro</string>
+    <string name="gemini_name">Gêmeos</string>
+    <string name="cancer_name">Câncer</string>
+    <string name="leo_name">Leão</string>
+    <string name="virgo_name">Virgem</string>
+    <string name="libra_name">Libra</string>
+    <string name="scorpio_name">Escorpião</string>
+    <string name="sagittarius_name">Sagitário</string>
+    <string name="capricorn_name">Capricórnio</string>
+    <string name="aquarius_name">Aquário</string>
+    <string name="pices_name">Peixes</string>
+
+</resources>
