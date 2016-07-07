@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Zodiac Match</string>
     <string name="action_settings">Configurações</string>
-    <string name="welcome">Bem vindo ao Zodiac Match</string>
+    <string name="welcome">ZMatch</string>
 
     <!-- zodiac names -->
     <string name="aries_name">Áries</string>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/textsIcons"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@color/herMagesty">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="bottom"
+            android:background="@color/primaryText"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/profileTexts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:text="Luiz Fernando" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/tv_sign"
+                    style="@style/profileTexts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Libra" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/secondaryText" />
+
+                <TextView
+                    android:id="@+id/tv_age"
+                    style="@style/profileTexts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="23" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_profile_pic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/luiz"
+            android:background="@drawable/border"/>
+    </FrameLayout>
+
+    <TextView
+        android:layout_marginTop="20dp"
+        style="@style/fildNameTexts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bio"
+        android:gravity="left"
+        android:layout_marginLeft="10dp"/>
+
+
+    <TextView
+        android:id="@+id/tv_bio"
+        style="@style/informationTexts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gosto de pokemon e malhar. Meu sobrenome é preguiça."
+        android:layout_margin="10dp"/>
+
+    <TextView
+        android:layout_marginTop="20dp"
+        style="@style/fildNameTexts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Signos"
+        android:gravity="left"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_showing_sing"
+        style="@style/informationTexts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No momento, você está vendo todos os signos"
+        android:layout_margin="10dp"/>
+
+    <Button
+        android:id="@+id/bt_select_sing"
+        style="@style/button_open_popup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mudar signos"
+        android:padding="15dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="10dp"
+        android:stateListAnimator="@null"/>
+
+    <Button
+        android:id="@+id/bt_save_config"
+        style="@style/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Salvar configurações"
+        android:layout_gravity="center"
+        android:padding="15dp"
+        android:layout_marginTop="40dp"/>
+
+</LinearLayout>

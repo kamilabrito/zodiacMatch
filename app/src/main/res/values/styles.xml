@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -13,8 +13,45 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="headerTexts">
+        <item name="android:textSize">@dimen/header_txt_size</item>
+        <item name="android:textColor">@color/textsIcons</item>
+    </style>
+
+    <style name="informationTexts">
+        <item name="android:textSize">@dimen/info_txt_size</item>
+        <item name="android:textColor">@color/primaryText</item>
+    </style>
+
+    <style name="fildNameTexts">
+        <item name="android:textSize">@dimen/field_txt_size</item>
+        <item name="android:textColor">@color/herMagestySaturated</item>
+    </style>
+
+    <style name="profileTexts">
+        <item name="android:textSize">@dimen/info_txt_size</item>
+        <item name="android:textColor">@color/textsIcons</item>
+    </style>
+
+    <style name="button">
+        <item name="android:background">@color/herMagestySaturated</item>
+        <item name="android:textSize">@dimen/button_txt_size</item>
+        <item name="android:textColor">@color/textsIcons</item>
+    </style>
+
+    <style name="button_open_popup">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textSize">@dimen/button_txt_size</item>
+        <item name="android:textColor">@color/herMagestySaturated</item>
+    </style>
+
+
+
+
+
 
 </resources>

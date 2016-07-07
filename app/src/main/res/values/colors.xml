@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#F44336</color>
+    <color name="colorPrimaryDark">#D32F2F</color>
+    <color name="colorPrimaryLight">#FFCDD2</color>
+    <color name="colorAccent">#FFC107</color>
+
+    <color name="primaryText">#212121</color>
+    <color name="secondaryText">#727272</color>
+    <color name="divider">#B6B6B6</color>
+
+    <color name="textsIcons">#FFFFFF</color>
+
+
+    <color name="herMagesty">#7B0062</color>
+    <color name="herMagestySaturated">#AE0066</color>
+    <color name="hotPink">#D71F53</color>
+    <color name="almostOrange">#F44747</color>
+    <color name="almostYellow">#FF8150</color>
+
+
+
+
 </resources>

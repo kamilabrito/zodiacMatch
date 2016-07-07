@@ -2,88 +2,96 @@ package com.kbrtz.zodiacmatch;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-import com.backendless.Backendless;
-import com.backendless.BackendlessUser;
-import com.backendless.UserService;
-import com.backendless.async.callback.AsyncCallback;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-import java.util.List;
-import java.util.Map;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
     CallbackManager callbackManager;
-    AccessTokenTracker  accessTokenTracker;
+    AccessTokenTracker accessTokenTracker;
     ProfileTracker profileTracker;
+    private Bundle informationBundle = new Bundle();
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mAuth = FirebaseAuth.getInstance();
 
-        toolbar.setTitle(R.string.app_name);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        String appVersion = "v1";
-        Backendless.initApp(this, getString(R.string.YOUR_APP_ID), getString(R.string.YOUR_SECRET_KEY), appVersion);
+        //signout
+        // FirebaseAuth.getInstance().signOut();
 
         callbackManager = CallbackManager.Factory.create();
 
-        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions("email");
+        final LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList(
+                "public_profile", "email", "user_birthday"));
+
 
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 /* make the API call */
-                new GraphRequest(
-                        AccessToken.getCurrentAccessToken(),
-                        "/{user-id}",
-                        null,
-                        HttpMethod.GET,
-                        new GraphRequest.Callback() {
-                            public void onCompleted(GraphResponse response) {
-                                /* handle the result */
-                                Log.e("facebook","resultado:" + response);
-                            }
-                        }
-                ).executeAsync();
+                handleFacebookAccessToken(loginResult.getAccessToken());
 
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        Log.i("LoginActivity", response.toString());
+                        // Get facebook data from login
+                        getFacebookData(object);
+                        Log.i("LoginActivity", "email: "  + informationBundle.get("email").toString());
+                        Log.i("LoginActivity", "gender: "  + informationBundle.get("gender").toString());
+                        Log.i("LoginActivity", "birthday: "  + informationBundle.get("birthday").toString());
+
+                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                        intent.putExtras(informationBundle);
+                        startActivity(intent);
+
+                    }
+                }
+            );
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id, first_name, last_name, email, gender, birthday, location"); // Parámetros que pedimos a facebook
+                request.setParameters(parameters);
+                request.executeAsync();
 
             }
 
@@ -118,7 +126,58 @@ public class MainActivity extends AppCompatActivity {
                 // App code
             }
         };
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d("firebase", "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d("firebase", "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
     }
+
+    private void getFacebookData(JSONObject object) {
+
+        try {
+            Bundle bundle = new Bundle();
+            String id = object.getString("id");
+
+            try {
+                URL profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=150");
+                Log.i(Constants.PROFILE_PIC, profile_pic + "");
+                bundle.putString(Constants.PROFILE_PIC, profile_pic.toString());
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            bundle.putString(Constants.FACEBOOK_ID, id);
+            if (object.has(Constants.FIRST_NAME))
+                bundle.putString(Constants.FIRST_NAME, object.getString(Constants.FIRST_NAME));
+            if (object.has(Constants.LAST_NAME))
+                bundle.putString(Constants.LAST_NAME, object.getString(Constants.LAST_NAME));
+            if (object.has(Constants.EMAIL))
+                bundle.putString(Constants.EMAIL, object.getString(Constants.EMAIL));
+            if (object.has(Constants.GENDER))
+                bundle.putString(Constants.GENDER, object.getString(Constants.GENDER));
+            if (object.has(Constants.BIRTHDAY))
+                bundle.putString(Constants.BIRTHDAY, object.getString(Constants.BIRTHDAY));
+            if (object.has(Constants.LOCATION))
+                bundle.putString(Constants.LOCATION, object.getJSONObject(Constants.LOCATION).getString("name"));
+
+            informationBundle = bundle;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -155,29 +214,39 @@ public class MainActivity extends AppCompatActivity {
         profileTracker.stopTracking();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
 
-//    // instead of LoginActivity.this, use the activity class where the API is used
-//    Backendless.UserService.loginWithFacebookSdk(MainActivity.this,
-//    callbackManager,
-//            new AsyncCallback<BackendlessUser>()
-//    {
-//        @Override
-//        public void handleResponse( BackendlessUser loggedInUser )
-//        {
-//            // user logged in successfully
-//        }
-//
-//        @Override
-//        public void handleFault( BackendlessFault fault )
-//        {
-//            // failed to log in
-//        }
-//    } );
-//
-//    public void Backendless.UserService.loginWithFacebookSdk(
-//    android.app.Activity context,
-//    Map<String, String> facebookFieldsMappings,
-//    List<String> permissions,
-//    com.facebook.CallbackManager callbackManager,
-//    AsyncCallback<BackendlessUser> responder )
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+    private void handleFacebookAccessToken(AccessToken token) {
+        Log.d("firebase", "handleFacebookAccessToken:" + token);
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d("firebase", "signInWithCredential:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w("firebase", "signInWithCredential", task.getException());
+                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 }

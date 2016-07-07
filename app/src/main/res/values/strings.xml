@@ -5,7 +5,7 @@
     <!-- facebook id -->
     <string name="facebook_app_id">985634928210766</string>
 
-    <string name="welcome">Welcome to Zodiac Match</string>
+    <string name="welcome">ZMatch</string>
     <string name="fb_login_protocol_scheme">fb985634928210766</string>
 
 
