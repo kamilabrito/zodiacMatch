@@ -8,12 +8,6 @@
     <string name="welcome">ZMatch</string>
     <string name="fb_login_protocol_scheme">fb985634928210766</string>
 
-
-    <!-- backendless id -->
-    <string name="YOUR_APP_ID">BE64B1C9-1D4B-1C6B-FFC5-DC1AAA91DD00</string>
-    <string name="YOUR_SECRET_KEY">983902C7-EEA5-2417-FF8D-2D9AFFDE6E00</string>
-
-
     <!-- zodiac names -->
     <string name="aries_name">Aries</string>
     <string name="taurus_name">Taurus</string>
@@ -27,5 +21,15 @@
     <string name="capricorn_name">Capricorn</string>
     <string name="aquarius_name">Aquarius</string>
     <string name="pices_name">Pices</string>
+
+    <!-- profile strings -->
+    <string name="bio">Bio</string>
+    <string name="signs">Signs</string>
+    <string name="bio_btn">Update Bio</string>
+    <string name="signs_btn">Update Signs</string>
+    <string name="save_btn">Save</string>
+    <string name="done_btn">Done</string>
+    <string name="sign_dialog_title">Select The Signs you want to see</string>
+
 
 </resources>

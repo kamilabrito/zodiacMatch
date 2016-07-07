@@ -24,7 +24,7 @@
                 style="@style/profileTexts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="40dp"
                 android:text="Luiz Fernando" />
 
             <LinearLayout
@@ -33,7 +33,7 @@
                 android:layout_gravity="bottom"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:layout_marginBottom="5dp">
+                >
 
                 <TextView
                     android:id="@+id/tv_sign"
@@ -73,7 +73,7 @@
         style="@style/fildNameTexts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bio"
+        android:text="@string/bio"
         android:gravity="left"
         android:layout_marginLeft="10dp"/>
 
@@ -84,14 +84,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Gosto de pokemon e malhar. Meu sobrenome é preguiça."
-        android:layout_margin="10dp"/>
+        android:layout_margin="10dp"
+        android:gravity="left"
+        android:visibility="visible"/>
+
+    <EditText
+        android:id="@+id/et_bio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/bt_change_bio"
+        style="@style/button_open_popup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bio_btn"
+        android:padding="15dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="10dp"
+        android:stateListAnimator="@null"/>
 
     <TextView
-        android:layout_marginTop="20dp"
         style="@style/fildNameTexts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Signos"
+        android:text="@string/signs"
         android:gravity="left"
         android:layout_marginLeft="10dp"/>
 
@@ -101,6 +120,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="No momento, você está vendo todos os signos"
+        android:gravity="left"
         android:layout_margin="10dp"/>
 
     <Button
@@ -108,7 +128,7 @@
         style="@style/button_open_popup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mudar signos"
+        android:text="@string/signs_btn"
         android:padding="15dp"
         android:layout_gravity="right"
         android:layout_marginRight="10dp"
@@ -119,9 +139,9 @@
         style="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Salvar configurações"
+        android:text="@string/save_btn"
         android:layout_gravity="center"
         android:padding="15dp"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="20dp"/>
 
 </LinearLayout>
