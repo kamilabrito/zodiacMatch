@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kbrtz.zodiacmatch.model.User;
@@ -29,6 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView ivProfilePic;
     private DatabaseReference mDatabase;
     private User currentUser;
+    private String userId;
 
 
     @Override
@@ -94,7 +96,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             if (informationBundle.getString(Constants.FACEBOOK_ID) != null) {
-                currentUser.setFacebookId(informationBundle.getString(Constants.FACEBOOK_ID));
+                userId = informationBundle.getString(Constants.FACEBOOK_ID);
             }
 
         }
@@ -192,7 +194,19 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void saveNewUser() {
-        mDatabase.child("users").child(currentUser.getFacebookId()).setValue(currentUser);
+
+        mDatabase.child("users").child(userId).setValue(currentUser, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    Log.e("firebase", "Data could not be saved. " + databaseError.getMessage());
+                } else {
+                    Log.e("firebase", "Data saved successfully.");
+                }
+            }
+        });
     }
+
+
 
 }

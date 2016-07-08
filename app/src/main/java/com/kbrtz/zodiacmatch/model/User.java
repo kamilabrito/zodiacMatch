@@ -12,7 +12,6 @@ public class User {
     private String gender;
     private String birthday;
     private String sign;
-    private String facebookId;
     private String age;
     private String bio;
     private String preferedSigns;
@@ -74,14 +73,6 @@ public class User {
 
     public void setSign(String sign) {
         this.sign = sign;
-    }
-
-    public String getFacebookId() {
-        return facebookId;
-    }
-
-    public void setFacebookId(String facebookId) {
-        this.facebookId = facebookId;
     }
 
     public String getAge() {
